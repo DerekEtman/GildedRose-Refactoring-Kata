@@ -13,6 +13,14 @@ class GildedRose(var items: Array<Item>) {
         item.quality = item.quality - amount
     }
 
+    fun increaseItemQuality(item: Item, amount: Int) {
+        item.quality = item.quality + amount
+    }
+
+    fun decreaseSellInDate(item: Item, amount: Int) {
+        item.sellIn = item.sellIn - amount
+    }
+
 
 
     fun updateQuality() {
@@ -32,18 +40,17 @@ class GildedRose(var items: Array<Item>) {
             } else {
 
                 if (items[i].quality < 50) {
-                    items[i].quality = items[i].quality + 1
-
+                    increaseItemQuality(items[i], 1)
                     if (items[i].name == "Backstage passes to a TAFKAL80ETC concert") {
                         if (items[i].sellIn < 11) {
                             if (items[i].quality < 50) {
-                                items[i].quality = items[i].quality + 1
+                                increaseItemQuality(items[i], 1)
                             }
                         }
 
                         if (items[i].sellIn < 6) {
                             if (items[i].quality < 50) {
-                                items[i].quality = items[i].quality + 1
+                                increaseItemQuality(items[i], 1)
                             }
                         }
                     }
@@ -52,13 +59,12 @@ class GildedRose(var items: Array<Item>) {
 
 
             if (items[i].name != "Sulfuras, Hand of Ragnaros") {
-                items[i].sellIn = items[i].sellIn - 1
+//                items[i].sellIn = items[i].sellIn - 1
+                decreaseSellInDate(items[i], 1)
             }
 
             if (items[i].sellIn < 0) {
-//                if (items[i].name != "Aged Brie") {
                 if (!isDecreasingItem(items[0])) {
-
                     if (items[i].name != "Backstage passes to a TAFKAL80ETC concert") {
                         if (items[i].quality > 0) {
                             if (items[i].name != "Sulfuras, Hand of Ragnaros") {
@@ -67,11 +73,10 @@ class GildedRose(var items: Array<Item>) {
                         }
                     } else {
                         decreaseItemQuality(items[i], items[i].quality)
-//                        items[i].quality = items[i].quality - items[i].quality
                     }
                 } else {
                     if (items[i].quality < 50) {
-                        items[i].quality = items[i].quality + 1
+                        increaseItemQuality(items[i], 1)
                     }
                 }
             }
