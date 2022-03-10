@@ -45,6 +45,36 @@ internal class GildedRoseTest {
             app.updateQuality()
             assertEquals(50, items[0].quality)
         }
+        @Test
+        fun `Once the sell by date has passed, Quality degrades x2`() {
+            val items = arrayOf(Item("Elixir of the Mongoose", 0, 7))
+            val app = GildedRose(items)
+            app.updateQuality()
+            assertEquals(5,items[0].quality)
+        }
+        @Test
+        fun `Quality of an item is never negative`() {
+            val items = arrayOf(Item("Elixir of the Mongoose", 0, 0))
+            val app = GildedRose(items)
+            app.updateQuality()
+            assertEquals(0,items[0].quality)
+        }
+        @Test
+        fun `Quality of an item is never more than 50`() {
+            val items = arrayOf(Item("Aged Brie", 2, 50),)
+            val app = GildedRose(items)
+            app.updateQuality()
+            assertEquals(50,items[0].quality)
+        }
+
+        @Test
+        fun `Aged Brie actually increases in Quality the older it gets`() {
+            val items = arrayOf(Item("Aged Brie", 2, 0),)
+            val app = GildedRose(items)
+            app.updateQuality()
+            assertEquals(1,items[0].quality)
+        }
+
     }
 
 
