@@ -45,16 +45,41 @@ internal class GildedRoseTest {
             app.updateQuality()
             assertEquals(50, items[0].quality)
         }
+
+        @Test
+        fun `Quality +2 when there are less than 10 days`() {
+            val items = arrayOf( Item("Backstage passes to a TAFKAL80ETC concert", 10, 49),)
+            val app = GildedRose(items)
+            app.updateQuality()
+            assertEquals(50, items[0].quality)
+        }
+
+        @Test
+        fun `Quality +3 when there are less than 5 days`() {
+            val items = arrayOf( Item("Backstage passes to a TAFKAL80ETC concert", 5, 47),)
+            val app = GildedRose(items)
+            app.updateQuality()
+            assertEquals(50, items[0].quality)
+        }
+
+        @Test
+        fun `Passes are worth 0 after expiration`() {
+            val items = arrayOf( Item("Backstage passes to a TAFKAL80ETC concert", -1, 47),)
+            val app = GildedRose(items)
+            app.updateQuality()
+            assertEquals(0, items[0].quality)
+        }
+
         @Test
         fun `Once the sell by date has passed, Quality degrades x2`() {
-            val items = arrayOf(Item("Elixir of the Mongoose", 0, 7))
+            val items = arrayOf( Item("Elixir of the Mongoose", 0, 7))
             val app = GildedRose(items)
             app.updateQuality()
             assertEquals(5,items[0].quality)
         }
         @Test
         fun `Quality of an item is never negative`() {
-            val items = arrayOf(Item("Elixir of the Mongoose", 0, 0))
+            val items = arrayOf( Item("Elixir of the Mongoose", 0, 0))
             val app = GildedRose(items)
             app.updateQuality()
             assertEquals(0,items[0].quality)
@@ -75,8 +100,17 @@ internal class GildedRoseTest {
             assertEquals(1,items[0].quality)
         }
 
-    }
+        @Test
+        fun `Sulfuras, being a legendary item, never has to be sold or decreases in Quality`() {
+            val items = arrayOf(Item("Sulfuras, Hand of Ragnaros", 0, 80),)
+            val app = GildedRose(items)
+            app.updateQuality()
+            assertEquals(0,items[0].sellIn)
+            assertEquals(80,items[0].quality)
+        }
 
+
+    }
 
     @Nested
     inner class updateItemSellIn {

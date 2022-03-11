@@ -1,5 +1,8 @@
 package com.gildedrose
 
+//create public interface
+
+
 class GildedRose(var items: Array<Item>) {
 
     fun isDecreasingItem(item: Item): Boolean {
@@ -25,6 +28,7 @@ class GildedRose(var items: Array<Item>) {
 
     fun decreaseItemQuality(item: Item, amount: Int) {
         item.quality = item.quality - amount
+        println("New Item Quality" + item.quality)
     }
 
     fun increaseItemQuality(item: Item, amount: Int) {
@@ -36,53 +40,69 @@ class GildedRose(var items: Array<Item>) {
     }
 
     fun updateQuality() {
-        for (i in items.indices) {
+        items.forEach {  item ->
 
-            if (!isDecreasingItem(items[i])) {
+            if(item.name == "Backstage passes to a TAFKAL80ETC concert" && isExpired(item.sellIn)){
+                println("here" + item.quality)
+                return decreaseItemQuality(item, item.quality)
+            }
 
-                if (items[i].quality > 0) {
+            if (!isDecreasingItem(item)) {
 
-                    if (items[i].name != "Sulfuras, Hand of Ragnaros" && items[i].name != "Conjured Mana Cake") {
-                        decreaseItemQuality(items[i], 1)
+                if (item.quality > 0) {
+
+                    if (item.name != "Sulfuras, Hand of Ragnaros" && item.name != "Conjured Mana Cake") {
+                        decreaseItemQuality(item, 1)
                     }
 
-                    if(items[i].name == "Conjured Mana Cake") {
-                        decreaseItemQuality(items[i], 2)
+                    if(item.name == "Conjured Mana Cake") {
+                        decreaseItemQuality(item, 2)
                     }
 
                 }
             } else {
+                if (!isMaxQuality(item.quality)) {
+                    increaseItemQuality(item, 1)
 
-                if (!isMaxQuality(items[i].quality)) {
-                    increaseItemQuality(items[i], 1)
-                    if (items[i].name == "Backstage passes to a TAFKAL80ETC concert") {
-                        if (items[i].sellIn < 11 && !isMaxQuality(items[i].quality)) {
-                                increaseItemQuality(items[i], 1)
+                    if (item.name == "Backstage passes to a TAFKAL80ETC concert") {
+
+                        if ( item.sellIn < 11 && !isMaxQuality(item.quality)) {
+                                increaseItemQuality(item, 1)
                         }
-                        if (items[i].sellIn < 6 && !isMaxQuality(items[i].quality)) {
-                            increaseItemQuality(items[i], 1)
+
+                        if ( item.sellIn < 6 && !isMaxQuality(item.quality)) {
+                            increaseItemQuality(item, 1)
                         }
+
                     }
+
                 }
+
             }
 
+//
 
-            if (items[i].name != "Sulfuras, Hand of Ragnaros") {
-                decreaseSellInDate(items[i], 1)
+
+            if (item.name != "Sulfuras, Hand of Ragnaros") {
+                decreaseSellInDate(item, 1)
             }
 
-            if (isExpired(items[i].sellIn)) {
+            if (isExpired(item.sellIn)) {
+
                 if (!isDecreasingItem(items[0])) {
-                    if (items[i].name != "Backstage passes to a TAFKAL80ETC concert") {
-                        if (items[i].quality > 0 && items[i].name != "Sulfuras, Hand of Ragnaros") {
-                                decreaseItemQuality(items[i], 1)
+
+                    if (item.name != "Backstage passes to a TAFKAL80ETC concert") {
+                        if (item.quality > 0 && item.name != "Sulfuras, Hand of Ragnaros") {
+                                decreaseItemQuality(item, 1)
                         }
-                    } else {
-                        decreaseItemQuality(items[i], items[i].quality)
                     }
+//                    else {
+//                        println("here")
+//                        decreaseItemQuality(item, item.quality)
+//                    }
                 } else {
-                    if (!isMaxQuality(items[i].quality)) {
-                        increaseItemQuality(items[i], 1)
+                    if (!isMaxQuality(item.quality)) {
+                        increaseItemQuality(item, 1)
                     }
                 }
             }
