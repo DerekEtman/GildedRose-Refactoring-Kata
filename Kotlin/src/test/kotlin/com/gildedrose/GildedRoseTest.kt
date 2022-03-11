@@ -31,14 +31,6 @@ internal class GildedRoseTest {
         }
 
         @Test
-        fun `Conjured Items are reduced x2`() {
-            val items = arrayOf(Item("Conjured Mana Cake", 1, 6))
-            val app = GildedRose(items)
-            app.updateQuality()
-            assertEquals(4, app.items[0].quality)
-        }
-
-        @Test
         fun `increase quality of backstage passes`() {
             val items = arrayOf( Item("Backstage passes to a TAFKAL80ETC concert", 10, 49))
             val app = GildedRose(items)
@@ -121,6 +113,15 @@ internal class GildedRoseTest {
             app.updateQuality()
             assertEquals(9, items[0].sellIn)
         }
+    }
+
+    @Test
+    @Disabled
+    fun `Conjured Items are reduced x2`() {
+        val items = arrayOf(Item("Conjured Mana Cake", 1, 6))
+        val app = GildedRose(items)
+        app.updateQuality()
+        assertEquals(4, app.items[0].quality)
     }
 }
 

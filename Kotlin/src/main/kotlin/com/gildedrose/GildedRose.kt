@@ -40,73 +40,7 @@ class GildedRose(var items: Array<Item>) {
     }
 
     fun updateQuality() {
-        items.forEach {  item ->
-
-            if(item.name == "Backstage passes to a TAFKAL80ETC concert" && isExpired(item.sellIn)){
-                println("here" + item.quality)
-                return decreaseItemQuality(item, item.quality)
-            }
-
-            if (!isDecreasingItem(item)) {
-
-                if (item.quality > 0) {
-
-                    if (item.name != "Sulfuras, Hand of Ragnaros" && item.name != "Conjured Mana Cake") {
-                        decreaseItemQuality(item, 1)
-                    }
-
-                    if(item.name == "Conjured Mana Cake") {
-                        decreaseItemQuality(item, 2)
-                    }
-
-                }
-            } else {
-                if (!isMaxQuality(item.quality)) {
-                    increaseItemQuality(item, 1)
-
-                    if (item.name == "Backstage passes to a TAFKAL80ETC concert") {
-
-                        if ( item.sellIn < 11 && !isMaxQuality(item.quality)) {
-                                increaseItemQuality(item, 1)
-                        }
-
-                        if ( item.sellIn < 6 && !isMaxQuality(item.quality)) {
-                            increaseItemQuality(item, 1)
-                        }
-
-                    }
-
-                }
-
-            }
-
-//
-
-
-            if (item.name != "Sulfuras, Hand of Ragnaros") {
-                decreaseSellInDate(item, 1)
-            }
-
-            if (isExpired(item.sellIn)) {
-
-                if (!isDecreasingItem(items[0])) {
-
-                    if (item.name != "Backstage passes to a TAFKAL80ETC concert") {
-                        if (item.quality > 0 && item.name != "Sulfuras, Hand of Ragnaros") {
-                                decreaseItemQuality(item, 1)
-                        }
-                    }
-//                    else {
-//                        println("here")
-//                        decreaseItemQuality(item, item.quality)
-//                    }
-                } else {
-                    if (!isMaxQuality(item.quality)) {
-                        increaseItemQuality(item, 1)
-                    }
-                }
-            }
-        }
+        items = items.map { item -> baseUpdateItem(item) }.toTypedArray()
     }
 
 }
